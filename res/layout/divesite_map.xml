@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <fragment
+            android:id="@+id/mapDiveSites"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        
+         <!-- Header with back button and shre button ,edit_txt_bg  red   android:background="#ac0b03"
+     android:id="@+id/textViewDiveSiteMarkerAddress", BLUE #0839AC-->
+        
+						 <!-- Header with back button and shre button -->
+						 
+        <RelativeLayout
+            android:id="@+id/top_tool"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/mapDiveSites"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="6dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginBottom="25dip"
+            android:alpha="0.9"
+            android:background="@drawable/button_bg"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_backButtonDiveMaps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                 android:inputType="textMultiLine"
+                android:drawableLeft="@drawable/arrow_left"
+                android:gravity="left" />
+
+            <TextView
+                android:id="@+id/textViewDiveSiteMarkerAddress"
+                android:layout_width="400dip"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_backButtonDiveMaps"
+                android:drawableRight="@drawable/arrow_right"
+                android:paddingLeft="10dp"
+                android:inputType="textMultiLine"
+                android:text="Touch marker For Dive details"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+        

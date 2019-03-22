@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black" >
+    
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+     android:layout_margin="8dp"
+    android:background="@drawable/roundedcorners2"
+    
+    
+    >
+      <!-- Outer liner layout hat will hold plane image, @drawable/logbg2 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:background="@drawable/backgrounddive9"
+       
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/tv_diveNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Dive No."
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_diveNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="@color/red"
+                android:textSize="18dip"
+                android:textStyle="bold"
+                android:typeface="sans" 
+                />
+        </LinearLayout>
+
+        
+        <!-- Dive site, location. image, date -->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" >
+
+           
+
+            <!--  android:src="@drawable/worldmap" -->
+
+            <AutoCompleteTextView
+                android:id="@+id/et_diveSiteLogDive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ems="10"
+                android:gravity="right"
+                android:hint="Dive Site"
+                android:paddingTop="10dp" />
+
+            <EditText
+                android:id="@+id/dp_diveDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:calendarViewShown="false"
+                android:gravity="right"
+                android:ems="10"
+                android:hint="Enter Date or Dbl Click" />
+
+            <ImageButton
+                android:id="@+id/ib_logDiveImage"
+                android:layout_width="160dp"
+                android:layout_height="125dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:alpha="0.75"
+                android:src="@drawable/camera4" />
+
+            
+
+        </RelativeLayout>
+
+        <LinearLayout
+           android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                
+                >
+        
+        <ImageButton
+                android:id="@+id/ib_findLocationOnMap"
+                android:layout_width="45dip"
+                android:layout_height="45dip"
+                android:alpha="0.7"
+                android:src="@drawable/map2"
+                 />
+        
+        <AutoCompleteTextView
+            android:id="@+id/et_locationLogDive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Click Map or Enter Loc"
+            android:textSize="14dip" />
+            
+        </LinearLayout>
+        
+        
+        <RatingBar
+            android:id="@+id/diveratingBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rating="5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_diveDepth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Depth (m)"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_diveDepth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                
+                android:gravity="right"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_diveTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Water Temp (c)"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_waterTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:hint="0"
+                
+                android:gravity="right"
+                android:inputType="number"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_visibilty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Visibilty(m)"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_visibilty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                
+                android:gravity="right"
+                android:layout_weight="50"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_startPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Start Pressure (Bar)"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_startPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:hint="0"
+                
+                android:gravity="right"
+                android:inputType="number"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_endPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="End Pressure (Bar)"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_endPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                
+                android:gravity="right"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_diveConditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Dive Conditions"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <Spinner
+                android:id="@+id/spinner_diveConditons"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/diveConditions_arrays" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_bottomTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Bottom Time (mins)"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <EditText
+                android:id="@+id/et_bottomTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                
+                android:gravity="right"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_diveBuddy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Dive Buddy"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <AutoCompleteTextView
+                android:id="@+id/et_diveBuddy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                
+                android:gravity="right"
+                android:inputType="textPersonName"
+                android:hint="Me Buddy"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_diveCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Dive Center"
+                android:textColor="#33FF00"
+                android:textSize="15dip"
+                android:inputType="text"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <AutoCompleteTextView
+                android:id="@+id/et_diveCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:gravity="right"
+                android:layout_weight="50"
+                android:hint="Center"
+                android:textColor="#FF0000"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_DiveComments"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:hint="Add Comments" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" >
+
+            <Button
+                android:id="@+id/button_SaveDiveLogEntry"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                 android:text="Save"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_bg"
+               android:textColor="#fff"
+                />
+
+            <Button
+                android:id="@+id/button_ViewSavedDive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/button_SaveDiveLogEntry"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/button_SaveDiveLogEntry"
+                android:background="@drawable/fb_button"
+                 />
+        </RelativeLayout>
+    </LinearLayout>
+
+        </LinearLayout>
+
+</ScrollView>

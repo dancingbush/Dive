@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+    
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:layout_margin="15dp"
+    android:background="@drawable/roundedcorners2"
+    
+    
+     >
+
+    
+     <!-- Outer liner layout hat will hold plane image -->
+    <RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+     android:layout_margin="8dp"
+    android:background="@drawable/plane"
+    >
+    
+        
+        
+    <ImageButton
+        android:id="@+id/im_divePic"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/et_diveLocation"
+        android:layout_marginLeft="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/camera" />
+
+    <RatingBar
+        android:id="@+id/rb_diveRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/im_divePic"
+        android:layout_below="@+id/im_divePic"
+        android:layout_marginTop="15dp"
+         android:numStars="5"
+         android:rating="5.0"/>
+
+    <EditText
+        android:id="@+id/et_DiveNumber2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/im_divePic"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/im_divePic"
+        android:ems="10"
+        android:inputType="number"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FF0000"
+        android:textSize="45dp"
+        android:textStyle="bold"
+        android:typeface="sans" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/et_diveLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/im_divePic"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:text="Location"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageButton
+        android:id="@+id/ib_findLocationOnMap2"
+        android:layout_width="45dip"
+        android:layout_height="45dip"
+        android:layout_alignTop="@+id/et_diveLocation"
+        android:layout_toRightOf="@+id/et_diveLocation"
+        android:src="@drawable/searchmap" />
+
+    <!-- Insert table here and draw borders by refernceing the drawable XML cell_shape file -->
+
+    <TableLayout
+        android:id="@+id/table_diveLogEdit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_diveRating"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveDateEdit"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Date"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/dp_diveDate2"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:typeface="sans"
+                android:ems="10"
+                android:hint="Date"
+                android:padding="5dp" />
+        </TableRow>
+         <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveDepthEdit"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Dive Site"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_diveSiteLogDive2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Site name"
+                android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveSiteEdit"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Depth(m)"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_diveDepth2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:inputType="number"
+                android:typeface="sans"
+                android:hint="Depth"
+                android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveTemp2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Water Temp"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_waterTemp2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Temp"
+                android:inputType="number"
+                android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_visibilty2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Vizibilty"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_visibilty2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Vizibilty"
+                android:inputType="number"
+                android:padding="5dp" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_startPressure2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Start Bar"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_startPressure2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Starting Bar"
+                android:inputType="number"
+                android:padding="5dp" />
+        </TableRow>
+        
+         <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_endPressure2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="End Bar"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_endPressure2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="End Bar"
+                android:inputType="number"
+                android:padding="5dp" />
+        </TableRow>
+        
+         <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveConditions2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Conditions"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_tv_diveConditions2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Conditions"
+                android:padding="5dp" />
+        </TableRow>
+        
+         <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_bottomTime2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Bottom Time"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_bottomTime2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="BT"
+                android:inputType="number"
+                android:padding="5dp" />
+        </TableRow>
+        
+         <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveBuddy2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Buddy"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_diveBuddy2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Buddy"
+                android:padding="5dp" />
+        </TableRow>
+         
+         <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveCenter2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Center"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_diveCenter2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/et_diveSiteLogDive"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:calendarViewShown="false"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Center"
+                android:padding="5dp" />
+        </TableRow>
+         
+         
+    </TableLayout>
+    
+    <EditText 
+        android:id="@+id/et_DiveComments2"
+        android:hint="Comments"
+        android:gravity="top|left" 
+        android:lines="3"  
+       
+       android:layout_below="@+id/table_diveLogEdit"
+        android:layout_width="fill_parent"
+        android:layout_margin="20dp"
+        android:background="@drawable/cell_shape"
+        android:layout_height="wrap_content"
+        android:maxLines="4"
+        android:scrollbars="vertical"
+        />
+
+    <Button
+    android:layout_marginTop="20dp"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:background="@drawable/button_bg"
+        android:textColor="#fff"
+        android:layout_marginLeft="50dp" 
+        
+        android:id="@+id/button_EditDive"
+        android:layout_below="@+id/et_DiveComments2"
+        android:layout_marginBottom="15dip"
+        />
+
+    <Button
+     android:id="@+id/button_deleteDive"
+    
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+         android:layout_toRightOf="@+id/button_EditDive"
+        android:layout_alignTop="@+id/button_EditDive"
+         android:layout_marginLeft="30dp" 
+        android:text="Delete"
+        android:background="@drawable/button_bg"
+        android:textColor="#fff"
+       
+       
+        />
+
+    
+    </RelativeLayout >
+</RelativeLayout>
+</ScrollView>

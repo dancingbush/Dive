@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mooney.diveapp"
+    android:versionCode="8"
+    android:versionName="2.2.1" 
+    >
+    
+    
+    <!-- adds publishing key e1e16bb4-5435-43f3-9d47-2d79facb97a5 -->
+    
+    
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    
+    <!-- When requesting a permission, make sure u add required=false otherwise google play
+    will exclude all devices withou that functionality -->
+    
+     <uses-feature android:name="android.permission.ACCESS_WIFI_STATE"
+                  android:required="false" />
+    <uses-feature android:name="android.hardware.camera"
+                  android:required="false" />
+
+    <!-- need to render map woth using OPen GL ES ver 2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+<!-- The following two permissions are not required to use
+     Google Maps Android API v2, but are recommended. -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_USER_DICTIONARY"/>
+<uses-permission android:name="android.permission.CAMERA"/>
+<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+<uses-permission android:name="android.permission.WRITE_USER_DICTIONARY"/>
+<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
+<uses-permission android:name="android.permission.SET_WALLPAPER"/>
+<uses-feature android:name="android.permission.SET_WALLPAPER"
+                  android:required="false" />
+ <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
+ <uses-feature android:name="android.permission.SET_WALLPAPER_HINTS"
+                  android:required="false" />
+ 
+ <!-- connect with googleplay billing service -->
+ <uses-permission android:name="com.android.vending.BILLING" />
+
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait" 
+        android:hardwareAccelerated="true"
+        >
+        
+        <uses-library android:name="com.google.android.maps"/>
+        
+         <!-- activity name is the fist activty the program will run, the name is the java class, the LANUCHER luanches ot firs -->
+        <activity
+            android:name="com.mooney.diveapp.SplashScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- this activity follwo the splach actibty -->
+        <!-- change LAUNCHE to DEFAUKT and andriod:name to pacakage.class to run -->
+        <activity
+            android:name="com.mooney.diveapp.MainMenu"
+            android:label="Main Menu" >
+            <intent-filter>
+                <action android:name="com.mooney.diveapp.MAINMENU" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Every activty that uses a camera need to fix the orinetation as if it changes u lose the photo, gets reset -->
+        <activity
+            android:name="com.mooney.diveapp.Profile"
+            android:label="Profile"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">         
+        </activity>
+        
+        <!-- dive log -->
+        <activity
+            android:name="com.mooney.diveapp.LogDive"
+            android:label="Log A Dive" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.LOGDIVE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+         <!-- dive histpory -->
+        <activity
+            android:name="com.mooney.diveapp.DiveHistory"
+            android:label="Dive History" 
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.DIVEHISTORY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        <!-- view selected dive for editing intent -->
+        
+        <activity
+            android:name="com.mooney.diveapp.ViewSelectedDive"
+            android:label="Logged Dive"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEWSELECTEDDIVE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        <!-- display google map activity -->
+        <activity
+            android:name="com.mooney.diveapp.MapDiveLocation"
+            android:label="Drop A Pin or Drag the Fin" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAPDIVELOCATION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <!-- data base display dives custom list adpater -->
+         <!-- dive log -->
+        <activity
+            android:name="com.mooney.diveapp.ViewListOfDives"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEWLISTOFDIVES" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <!-- Webview of tides -->
+         <activity
+            android:name="com.mooney.diveapp.Tides"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.TIDES" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.mooney.diveapp.ViewLoggedDive"
+            android:label="@string/app_name" 
+            android:windowSoftInputMode="stateHidden"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEWLOGGEDDIVE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <!-- wind direction webview -->
+        <activity
+            android:name="com.mooney.diveapp.WindDirection_Surf"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.WINDDIRECTION_SURF" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        <!-- checklist -->
+         <!-- wind direction webview -->
+        <activity
+            android:name="com.mooney.diveapp.Checklist"
+            android:label="Checklist"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.CHECKLIST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+         <!-- send email -->
+        <activity
+            android:name="com.mooney.diveapp.About"
+            android:label="About"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.ABOUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+         <!-- Dive images Gallery -->
+        <activity
+            android:name="com.mooney.diveapp.GalleryOfImages"
+            android:label="Gallery"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.GALLERYOFIMAGES" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+         <!-- Email Dive Log -->
+        <activity
+            android:name="com.mooney.diveapp.EmailDives"
+            android:label="Email Dive Log"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.EMAILDIVES" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+         <!-- Main Menu 2 -->
+        <activity
+            android:name="com.mooney.diveapp.MainMenu2"
+            android:label="Gallery"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAINMENU2" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        
+         <!-- List view of all dves wth searchbar fro os 3.0 and over -->
+        <activity
+            android:name="com.mooney.diveapp.ViewListOfDivesSearch"
+            android:label="Gallery"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEWLISTOFDIVESSEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+         <!-- declare google billing class with package name -->
+        <activity
+            android:name="com.android.vending.billing.ConnectToGoogleBill"
+            android:label="Gallery"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.CONNECTTOGOOGLEBILL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <!-- adds activity from jar libary/ filder-->
+    <activity android:name="com.purplebrain.adbuddiz.sdk.AdBuddizActivity" 
+               android:theme="@android:style/Theme.Translucent" />
+    
+        
+        <!-- google map api key -->
+        <meta-data
+    android:name="com.google.android.gms.version"
+    android:value="@integer/google_play_services_version" />
+        <meta-data
+    android:name="com.google.android.maps.v2.API_KEY"
+    android:value="AIzaSyBNEi4vSkddp3HLxqbKJ6uWt5tvv7LNwtE"/>
+        
+        
+        <!-- meta data fro FB API -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+        <activity  android:name="com.facebook.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+             />
+        
+    </application>
+    
+    
+    
+    
+
+</manifest>

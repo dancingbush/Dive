@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+      >
+    
+    
+    
+    <!-- holds imageview and dive no -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:weightSum="100" >
+
+       
+
+    <TextView
+        android:id="@+id/tv_totalDives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="85"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#5D09EF"
+        android:textSize="150dp"
+        
+         />
+
+</LinearLayout>
+
+     <TableLayout
+        android:id="@+id/table_diveSummary"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" 
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_deepDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Max Depth"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_deepestDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:hint="Depth"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_shallowDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Min Depth"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_shallowestDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:hint="Depth"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        
+        
+         <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_diveDepthEdit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Coldest Dive"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_coledestDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Temp"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        
+          <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_warmDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Warmist Dive"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_warmistDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Temp"
+                android:padding="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_totalDiveTime1"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Tot Dive Time"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_totalDiveTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:ems="10"
+                android:typeface="sans"
+                android:hint="Time"
+                android:padding="5dp" 
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <TextView
+                android:id="@+id/tv_longDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:background="@drawable/cell_shape"
+                android:padding="5dp"
+                android:typeface="sans"
+                android:text="Longest Dive"
+                android:textAppearance="?android:attr/textAppearanceMedium" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_longestDive"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:hint="Time"
+                android:padding="5dp" 
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </TableRow>
+        </TableLayout>
+    
+    
+</LinearLayout>
+</ScrollView>

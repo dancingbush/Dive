@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout  android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100"
+    android:layout_margin="6dp" >
+    <EditText
+        android:id="@+id/et_URL"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:ems="10"
+        android:background="@drawable/edit_txt_bg"
+        android:alpha="0.9"
+         android:layout_margin="8dip"
+        android:text="Enter your URL for tides and press Save"
+        android:textColor="@color/black" >
+
+        <requestFocus />
+    </EditText>
+
+    
+
+    </LinearLayout>
+    
+     <LinearLayout  android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:weightSum="100" >
+    <EditText
+        android:id="@+id/et_SearchTownName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:ems="10"
+        android:layout_margin="8dip"
+        
+        android:background="@drawable/edit_txt_bg"
+        android:alpha="0.9"
+         android:text="Enter your town and Search"
+        android:textColor="@color/black">
+
+        <requestFocus />
+    </EditText>
+
+    
+
+    </LinearLayout>
+    
+     <LinearLayout  android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:weightSum="100"
+    android:layout_margin="15dp"
+     >
+     
+    <Button
+        android:id="@+id/button_Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/button_bg"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="10dp"
+        android:text="Back"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_Forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/button_bg"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="12dp"
+        android:visibility="gone"
+        android:text="Forward" />
+
+    <Button
+        android:id="@+id/button_RefreshPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/button_bg"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="10dp"
+        android:text="Refresh" />
+
+    <Button
+        android:id="@+id/button_SaveURL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/button_bg"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="10dp"
+        android:text="Save Site" />
+    
+    <Button
+        android:id="@+id/button_Go"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="75"
+        android:layout_marginLeft="7dp"
+        android:textSize="10dp"
+        android:background="@drawable/button_bg"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:text="Go" />
+    
+    <Button
+        android:id="@+id/button_SearchGoogle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_weight="75"
+        android:background="@drawable/button_bg"
+        android:text="Search"
+        android:textColor="#000033"
+        android:textSize="10dp"
+        android:typeface="serif" />
+    
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"/>
+    
+    
+
+</LinearLayout>

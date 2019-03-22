@@ -1,0 +1,562 @@
+package com.mooney.diveapp;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import com.android.vending.billing.ConnectToGoogleBill;
+import com.mooney.diveapp.GalleryOfImages.getImageAsynch;
+import com.purplebrain.adbuddiz.sdk.AdBuddiz;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class EmailDives extends Activity implements OnClickListener{
+
+
+	/*
+	 * Open datanbase, get cursor, if empty dispaly dialog and quit
+	 * if not open AynscTask pasing <Void, int, File>
+	 * In background iterate through curso, for each row get string details o dive and write/append to file
+	 * For each iteration of cursor object representing row/dive pass int to process result to display dialog 
+	 * when done pass file to Post Execute and write it to message field of xml to test. 
+	 * If writing and reading fiel ok then send via a email intent taking recipent details from xml input
+	 * 
+	 * 
+	 * 
+	 */
+	private static String prefFileName="MyPref";
+	private Cursor c;
+	private diveDataBase db;
+	private static String TAG= "EMAILDIVES: ";
+	private EditText userEmail, messageContent; 
+	private Button sendFile;
+	
+	// get name from shared pref file in profile
+	SharedPreferences prefs;
+	String prefFilename = "MyPref";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		
+		this.setContentView(R.layout.emailfile);
+		
+		intiliseWidgets();
+		
+		
+		SharedPreferences prefs =this.getSharedPreferences(prefFileName, MODE_PRIVATE);
+		boolean purchased= prefs.getBoolean("purchased", false);
+		//place add only if boolean flag purcahsed is false
+				//ConnectToGoogleBill obj=new ConnectToGoogleBill();
+				//obj.oncre
+				if (purchased){
+					//true, has purschased so hide button
+					
+					Log.d("EMAIL ADDS: ", "PURCHASED FLAG SHOULD BE TRUE= :"+purchased);
+					
+				}else if(!purchased){
+					//true, has purschased so hide button
+					AdBuddiz.showAd(this);
+					Log.d("EMAIL: PURCHASE ", "ADDS IN TIDES SHOWN purcghase = " +purchased);
+				}
+		
+		
+		
+		this.sendFile.setEnabled(false);
+		
+		//open data base and get cursor
+		try{
+		db = new diveDataBase(this);
+		db.open();
+		c = db.getCursorData();
+		
+		if(c==null || c.getCount()==0){
+			
+			displayDialog();
+			
+			
+		}else if(c!=null && c.getCount()>0){
+			//pass curcor to asycvnh task
+			//new EmailFile().execute(c);, call when send button clicked only
+			
+			Log.d(TAG, "Cursor size in ONCREATE: " + c.getCount());
+			this.sendFile.setEnabled(true);
+		}
+		
+		
+		}catch(Exception e){
+			e.printStackTrace();
+			
+		}
+	}//oncreate
+	
+	
+	
+	@Override
+	public void onClick(View arg0) {
+		// send button is clicked sp call asynch task to process file generation
+		//and email intent
+		new EmailFile().execute(c);
+		
+		
+	}
+	
+	
+	
+
+	private void displayDialog() {
+		// cursor is empty
+		
+		AlertDialog.Builder build = null;
+		AlertDialog dialog = null;
+		build = new AlertDialog.Builder(this);
+		build.setCancelable(true);
+		build.setMessage("You have no dives saved in DB!!");
+		build.setPositiveButton("Log A Dive",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// go to log a dive
+						Intent i = new Intent(
+								"android.intent.action.LOGDIVE");
+						startActivity(i);
+						finish();
+
+					}// end on click
+				});// end pos button take photo
+
+		// get photo from SD card option
+		build.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+
+					}// end onclick
+				});// end pos button take photo
+		dialog = build.create();
+		dialog.setTitle("No Logged Dives");
+		dialog.show();
+		
+	}//end displAydialog
+
+	private void intiliseWidgets() {
+		// TODO Auto-generated method stub
+		
+		this.userEmail = (EditText) this.findViewById(R.id.email);
+		this.messageContent = (EditText) this.findViewById(R.id.message);
+		this.sendFile = (Button) this.findViewById(R.id.send);
+		sendFile.setOnClickListener(this);
+		
+		
+		
+	}//intilise wodgets
+
+	
+	
+	private class EmailFile extends AsyncTask<Cursor, Integer, File>{
+		
+
+		private ProgressDialog pd;
+		private Cursor cur;
+		private int progress;
+		private StringBuilder allDives=new StringBuilder();
+		private static final int READ_BLOCK_SIZE=100;//read 100 bytes at a time
+		private String openingMessage="DIVE LOG\n\nCompiled from Dive App.\n\n";
+		private String emailAdd=userEmail.getText().toString();
+		private File diveLogFile;
+		private String fileName="textfile.txt";
+		private File rootDirectory;
+		private int noOfDiveWritten=1;
+		private int totalDives;
+		
+		
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			pd = new ProgressDialog(EmailDives.this);
+			pd.setTitle("Compiling Dive Log...");
+			pd.show();
+		}
+
+		@Override
+		protected File doInBackground(Cursor... params) {
+			
+			//check forst if sd mounted, if nt dispaly dialog and quit
+			if(!android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){
+				Log.d("EMAILDIVES: ", "No SD card mounted");
+			}
+			// generate file by iteratong though cursor object, then send to onpost execute
+			cur= params[0];
+			Log.d(TAG, "Cursor size in DOINBACKGROUND: " + c.getCount());
+			progress=c.getCount();
+			totalDives=c.getCount();
+			
+			
+			//create the file in external diretory
+			rootDirectory = new File(Environment.getExternalStorageDirectory(), "DiveLogFile");
+			if(!rootDirectory.exists()){
+				//of can find his file then craete it
+				rootDirectory.mkdirs();
+			}
+			
+			diveLogFile = new File(rootDirectory, fileName);
+			diveLogFile.setReadable(true, false);
+			
+			
+			//get dive siummary for file header
+			String diveSummary = getDiveHistory();
+			
+			//catch file not fpund exception
+			
+			try{
+			
+				
+				//using http://stackoverflow.com/questions/8152125/how-to-create-text-file-and-insert-data-to-that-file-on-android
+			FileWriter writer = new FileWriter(diveLogFile);
+				
+				writer.write(openingMessage+diveSummary);
+			//open cursor object and iterate thoirgh it
+			
+					for(cur.moveToFirst(); !cur.isAfterLast(); c.moveToNext()){
+						
+				
+				String oneDive="";
+				//get strings for each dive
+				String diveSite = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_DIVESITE));
+		        String date = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY__DIVEDATE));
+		        String diveNumber= c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY__DIVENUMBER));
+		       String diveDepth = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_DEPTH));
+		       String diveTemperture = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_WATERTEMP));
+		       String diveLocation = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_DIVELOCATION));
+		        String diveCenter = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY__DIVECENTER));
+		        String diveBT = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_BOTTOMTIME));
+				String viz = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_VIZIBILTY));
+		      oneDive = "Dive No: "+ diveNumber + "\nDive Center: "+ diveCenter+"\nSite: "+ diveSite+" Date: "+date + "" +
+		        		" Depth: "+diveDepth+" Temperature: "+diveTemperture +" BottomTime: "+diveBT+" Visibilty:  "+viz+"\n\n"; 
+		        
+				//allDives.append(oneDive);
+				writer.append(oneDive);
+			
+				
+				
+				//update diolg prgrees bar in GUI via post proegrees
+				int percentageCompletion = (int) (noOfDiveWritten/(float) totalDives)*100;
+				this.publishProgress(percentageCompletion);
+				noOfDiveWritten=noOfDiveWritten+1;;
+				
+			}//ehile
+			
+			
+			//close file
+			writer.flush();
+			writer.close();
+			
+			}catch(IOException nofile){
+				
+				nofile.printStackTrace();
+			}
+			return null;
+		
+		
+		
+		}//do in bgrd
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+			pd.setTitle("Writing "+c.getCount()+" Dives to TextFile......"+values[0]+"%");
+		}
+
+		@Override
+		protected void onPostExecute(File result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if(pd.isShowing()){
+				pd.dismiss();
+			}
+			
+			
+			//primt teh file to message box to check ots ok
+			try{
+				
+				//using http://stackoverflow.com/questions/12421814/how-to-read-text-file-in-android
+				
+			
+				//hhced if fail there
+				if(!diveLogFile.exists()){
+					Log.d("EMAIL DIVE POST EXCE:"  , "Cant Find File");
+					
+				}else if(diveLogFile.exists()){
+					Log.d("EMAIL DIVE: ONPOST EXE:", "TEXT FILE LOCATION AT : "+diveLogFile.getAbsolutePath());
+				}
+				//the file already craeted in backgrpound
+				
+				//read text from file
+				StringBuilder text = new StringBuilder();
+				BufferedReader br = new BufferedReader(new FileReader(diveLogFile));
+				String line;
+				while((line = br.readLine())!=null){
+					text.append(line);
+					text.append("\n");
+				}
+				
+				
+				
+				
+				
+				//set message edit text to file contents
+				
+				EmailDives.this.messageContent.setText("Printing Dive Log File......Success!!\n\n"+text);
+				
+				
+			}catch (IOException e){
+				e.printStackTrace();
+				String error = e.getMessage();
+				Dialog d = new Dialog(EmailDives.this);
+				d.setTitle("No SD card mounted!! ");
+				TextView tv = new TextView(EmailDives.this);
+				tv.setText("Please chack and insert to send file correctly.");
+				d.setContentView(tv);
+				d.show();
+			}
+			
+			
+			
+			
+			
+			//send the file via email intent
+			
+			
+//get text from edit text and send email intent
+			
+			//try get Uroi of the file as opposed to teh file.tostrong as latter wont send
+			Uri path = Uri.fromFile(diveLogFile);
+			Log.d("EMAIL DIVE POST EXEC", "URI PATH= "+path.toString());
+			Log.d("EMAILDIVE POST EXCEUTE:", "diev File can read= " +diveLogFile.canRead());
+			String emailAddress[] = {emailAdd};//get aeray form a string for email intent
+			String fileName = diveLogFile.getName();
+			String message = messageContent.getText().toString();
+			if (message !=null || !message.contains("")){
+				//send email
+				Intent emailIntent = new Intent(Intent.ACTION_SEND);
+				emailIntent.setData(Uri.parse("mailto:"));
+				emailIntent.putExtra(Intent.EXTRA_EMAIL, emailAddress);
+				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Dive Log");
+				//emailIntent.setType("text/Message");"message/rfc822"
+				emailIntent.setType("message/rfc822");
+				emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+				//emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(diveLogFile.getAbsolutePath()+"/"+fileName));
+				emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+				try{
+				startActivity(Intent.createChooser(emailIntent, "Email Dive Log"));
+				
+				}catch(android.content.ActivityNotFoundException ex){
+					ex.printStackTrace();
+					String error = ex.getMessage();
+					Dialog d = new Dialog(EmailDives.this);
+					d.setTitle("Email Not Sent!");
+					TextView tv = new TextView(EmailDives.this);
+					tv.setText("Hmm you have no email set up on you phone.....Try agan once set up:)");
+					d.setContentView(tv);
+					d.show();
+					
+				}//end try catch emal activity
+				
+				Toast.makeText(getApplicationContext(), "Email Sent!", Toast.LENGTH_LONG).show();
+				
+				
+			}else{
+				//display dialog
+				displayDialog();
+			
+			}
+			
+			
+			
+			
+			
+			
+			c.close();
+		}//onPostExecute
+		
+		
+		
+		
+	}//astch class
+
+	
+	
+	public String getDiveHistory(){
+		
+		int deppestDive=0;
+		int shallowestDive=0;
+		int warmistDive=0;
+		int coldestDive=0;
+		int longestDive=0;
+		int totalBottomTime=0;
+	
+		int totalDives =0;
+		
+		
+		
+		Log.d(TAG, "GETDOVE HOSTORY CURSOR IS: "+c.getCount());
+		int iBottomTime = c.getColumnIndex(db.KEY_BOTTOMTIME);
+		int iWaterTemp = c.getColumnIndex(db.KEY_WATERTEMP);
+		int iDepth = c.getColumnIndex(db.KEY_DEPTH);
+		int diveNum1=0;
+		int firstBottomTimeEntry=0;
+		//must account for user entering their current cummulative bottom time if >o on first dive
+		
+		//always chack the cursor has data before trying to retrive data from DB, otherwise exception thrown
+		if( c != null && c.getCount()>0 ){
+			
+			try{
+			int rowNumber = db.getNumberOfRows();
+		diveNum1= Integer.parseInt(db.getDiveNumber(1));//get first dive entry 
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		//if(diveNum1==1){
+			try{
+		firstBottomTimeEntry = Integer.parseInt(db.getDiveBottomTime(1));
+			}catch(Exception exc){
+				exc.printStackTrace();
+			}
+		//}
+		Log.d("DIVE HISTORY", "For Dive Number : " + diveNum1 + " the bttom time is : " + firstBottomTimeEntry);
+		}
+		int rows=0;
+		
+		
+		
+		if(c!=null && c.getCount()>0){
+		//iterate though the cursor
+		for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
+			
+			
+			
+			//for every row get string data from the respective column index column
+			if(c.getString(iDepth)!=null || c.getString(iWaterTemp)!=null || c.getString(iBottomTime)!=null){
+				
+			int	theBottomTime = Integer.parseInt(c.getString(iBottomTime));
+			int theDepth = Integer.parseInt(c.getString(iDepth));
+			int theTemp = Integer.parseInt(c.getString(iWaterTemp));
+			
+			//comapre to get maximumu value
+			if (deppestDive<=theDepth){
+				deppestDive = theDepth;
+			
+			}
+			if(shallowestDive>=theDepth){
+				shallowestDive=theDepth;
+			}
+			if(warmistDive<=theTemp){
+				warmistDive=theTemp;
+			}
+			if(coldestDive>=theTemp){
+				coldestDive=theTemp;
+			}
+			
+			//if user enters first dove as not their first ie 235, with bottom time 2000 minutes
+			//we must check this and make sure this first bottom time is not given to longestDive
+			//int diveno = db.getLastDiveNumber();
+			if(rows == 0){
+			if(firstBottomTimeEntry>200){
+				theBottomTime = theBottomTime - firstBottomTimeEntry;
+			}
+			}
+			
+			if(longestDive<=theBottomTime){
+				longestDive=theBottomTime;
+			}
+			
+			if(rows==0){
+				theBottomTime = Integer.parseInt(c.getString(iBottomTime));
+			}
+			
+			
+			
+			
+			
+			}//end 2nd if
+			else{
+				//log 
+				Log.d("Dive Hstory", "One of the values is null!");
+			}
+		
+			//totalBottomTime += theBottomTime;
+			totalDives = db.getLastDiveNumber();
+			
+			
+			rows++;
+		}//end for loop thopugh cursor object
+		}
+		else{
+			//first if stament,cursor is null or DB is empty
+			return "error";
+			//displayDialog();
+		}
+		//get total dives
+		
+		// get name of diver from profile saved in shared orefernces
+		// load the shared prefs object
+				SharedPreferences prefs = this.getSharedPreferences(prefFilename, MODE_PRIVATE);
+				
+
+				// load the shared pref values in the Edittexts
+				String firstName=prefs.getString("firstName", "Firsname: ");
+				String lastName=prefs.getString("lastName", "Lastname: ");
+				
+				Log.d(TAG, "543: NAME FORM SHARED PREFS! "+ firstName + "/ "+lastName);
+		
+		String diveSummary = "\nDiver : " + firstName + " "+ lastName+
+				"\n\nTotal Dives: "+ totalDives+"\n\nDeepest Dive: "+deppestDive+"\nShallowest Dive: "+shallowestDive+"" +
+				"\nColdest Dive: "+ coldestDive+"\nWarmist Dive: "+warmistDive+"\nLongest Dive (mins): "
+				+longestDive+ "\nTotal Bottom Time: "+totalBottomTime+"\n\n";
+		
+		return diveSummary;
+		
+	}//end diveHiostory
+
+
+
+
+
+	
+	
+	
+	
+}//end EmailDives

@@ -1,0 +1,473 @@
+package com.mooney.diveapp;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Random;
+
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.CursorAdapter;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+//--CURSOR ADPTER FOR POPULATING LIST VIEW WITH DB DATA--
+
+public class ItemAdapter extends CursorAdapter{
+
+	 private LayoutInflater mLayoutInflater;
+	    private Context mContext;
+	    private File imagePathFile;
+	    private Bitmap resizedImage;
+	 // for image resizing
+		static int w = 50;
+		static int h = 50;
+		private static final String TAG = LogDive.class.getName();
+		private int noOfRows;
+		private Bitmap bitmap=null;
+		//private ImageView displayImage;
+		//private String diveImagePath;
+		public getBitmapImage getImageAsynch;
+		private int noOfImagesloaded=0;
+		private boolean displayImagesUserChoice=false;
+	    
+	    public ItemAdapter(Context context, Cursor c) {
+	        super(context, c);
+	        mContext = context;
+	        mLayoutInflater = LayoutInflater.from(context); 
+	        
+	      // mContext.
+	       // noOfRows = c.getCount()+1;//use row count to get no of dives
+	    }//end constructor
+
+	    
+	    public ItemAdapter(Context context, Cursor c, boolean displayImages) {
+	    	//if false do not load images int IMageview and save time
+	        super(context, c);
+	        mContext = context;
+	        mLayoutInflater = LayoutInflater.from(context); 
+	        displayImagesUserChoice=displayImages;
+	        
+	      
+	    }//end constructor
+
+	    
+	    @Override
+	    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+	        //View v = mLayoutInflater.inflate(R.layout.database_list_row2, parent, false);
+	        //return v;
+	        
+//called once when adpter needs the view
+	    	
+	    	View resultView = mLayoutInflater.inflate(R.layout.database_list_row2, parent, false);
+	        //View v = null;
+	        
+	        //use s Holder object to hold refernces to widgets in LstVoew so they can be resused when not in view
+	        
+	        ViewHolder holder = new ViewHolder();
+    		holder.title_text = (TextView) resultView.findViewById(R.id.tv_DiveSiteListView);//large text
+    		holder.date_text =  (TextView) resultView.findViewById(R.id.tv_diveDateList);//samll text
+    		//holder.image = (ImageView) resultView.findViewById(R.id.iv_list_image); //image view
+    		holder.dive_no = (TextView) resultView.findViewById(R.id.tv_diveNumberListView); //test number
+    		holder.bar = (RatingBar) resultView.findViewById(R.id.ratingBarListView);
+    		holder.displayImage = (ImageView) resultView.findViewById(R.id.iv_list_image);
+    		
+    		resultView.setTag(holder);//set the view fro the Cusror Object
+    		
+    		return resultView;
+	    }//end newView
+
+	    /**
+	     * paramteres: The view passed in which the elements we set up here will be displayed
+	     * Context: The runnng context where theis list view adapter wil be active
+	     * C: the Cursor object containg the dive DB query results we will display
+	     * We want to display the dive number, date, dive site and Image
+	     */
+
+	    private static class ViewHolder{
+	    	
+	    	/*
+	    	* holder object which holds places for widgets in the ListView.xml
+	    	* when a list row is out of view on screen it allows re-cycling so yhe list row 
+	    	* object does not have to be created and inflated wasting time and memory
+	    	*/
+	    	
+	    	TextView title_text;   //larger text for test name
+			TextView date_text;  //smaller sub text for Deprtnament name 
+			//ImageView image; //holds the image
+			TextView dive_no; //holds the test number
+			RatingBar bar;
+			ImageView displayImage;
+	    	
+	    }
+	    
+	    
+	    @Override
+	    public void bindView(View v, Context context, final Cursor c) {
+	    	
+	    	
+	    	/*
+	    	 * Binds the data from each row (stored in cursor object) to the ListView.xml
+	    	 * first free up List object if not in view of the screen by holding a ref to it, therefore dont
+	    	* waste memeory and tiome recreating each view when out of viewable list to user
+	    	*/
+	    	
+	    	ViewHolder holder = (ViewHolder) v.getTag();
+	    	
+	        String diveSite = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_DIVESITE));
+	        holder.title_text.setText(diveSite);
+	        
+	        String date = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY__DIVEDATE));
+	        holder.date_text.setText(date);
+	        
+	        String rating = c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY_DIVERATING));
+	        holder.bar.setNumStars(5);
+	        holder.bar.setRating( Float.parseFloat(rating));
+	        
+	        
+	        
+	        
+	        String diveNumber= c.getString(c.getColumnIndexOrThrow(diveDataBase.KEY__DIVENUMBER));
+	        
+	        
+	        String diveImagePath = c.getString(c.getColumnIndex(diveDataBase.KEY_DIVEPICTURE));
+	        
+	        
+	        c.moveToLast();
+	        noOfRows = Integer.parseInt(c.getString(c.getColumnIndex(diveDataBase.KEY__DIVENUMBER)));
+	        holder.dive_no.setText(diveNumber+"/"+noOfRows);
+	       
+	       
+	        //diveDataBase db = new diveDataBase(ItemAdapter.this);
+	        //db.open();
+	        //noOfRows = db.getLastDiveNumber();
+	        //db.close();
+
+	        /**
+	         * Next set the dive site name
+	         */
+
+	        
+	        /*
+	        TextView title_text = (TextView) v.findViewById(R.id.tv_DiveSiteListView);
+	        if (title_text != null) {
+	            title_text.setText(diveSite);
+	        }
+
+	        /**
+	         * Set Date of dive in smaller textView font
+	         
+
+	        TextView date_text = (TextView) v.findViewById(R.id.tv_diveDateList);
+	        if (date_text != null) {
+	            date_text.setText(date);
+	        }       
+
+	        /**
+	         * Display the dive number in larger red font
+	         
+
+	        TextView dive_no = (TextView) v.findViewById(R.id.tv_diveNumberListView);
+	        if (diveNumber != null  ) {
+	            dive_no.setText(diveNumber+"/"+noOfRows);//+1 as rows start at zero
+	        }
+
+	        
+	        
+	        /*
+	         * Display the rating of the dive
+	         
+	        RatingBar  bar = (RatingBar) v.findViewById(R.id.ratingBarListView);
+	        bar.setNumStars(5);
+	        
+	        bar.setRating( Float.parseFloat(rating));
+	        /**
+	         * Display the image only of image not null
+	         * First get image from Strimg pathname as a file, then convert to Bitmap and resize
+	         * fade image in and out animation code
+	         */
+	        
+	        
+	        
+	        Animation fadeIn = new AlphaAnimation(0, 1);
+	        fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+	        fadeIn.setDuration(3000);
+
+	        Animation fadeOut = new AlphaAnimation(1, 0);
+	        fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+	        fadeOut.setStartOffset(1000);
+	        fadeOut.setDuration(1000);
+
+	        AnimationSet animation = new AnimationSet(false); //change to false
+	        animation.addAnimation(fadeIn);
+	        //animation.addAnimation(fadeOut);
+	        //this.setAnimation(animation);
+	        
+	        // displayImage = (ImageView) v.findViewById(R.id.iv_list_image);
+	        
+	        //set image here once taken form external string path, and resized bitmap conversion
+	        
+	         //get bitmap image from base 64 string, and set to image view using asynch class thread
+	         //new getBitmapImage(v).execute(diveImagePath);
+	        getImageAsynch = (getBitmapImage) new getBitmapImage(v).execute(diveImagePath);
+	        
+	        /*new thred off GUI
+	        Thread loadImage = new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					// get image path and decode to bitmap
+					String diveImagePath = c.getString(c.getColumnIndex(diveDataBase.KEY_DIVEPICTURE));
+					 imagePathFile = new File(diveImagePath); 
+					 try {
+							FileInputStream streamIn = new FileInputStream(imagePathFile);
+							 bitmap = BitmapFactory.decodeStream(streamIn);//retrun null if cant convert
+				}catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					//Toast.makeText(context, "No Image Found!! Usimng default", Toast.LENGTH_LONG).show();
+					
+				}//end try catch
+				}//edn run
+	        });
+	        
+	       
+				if(bitmap!=null){
+					displayImage.setBackground(null);
+					resizedImage = reSizeImage(bitmap);
+					
+					displayImage.setImageBitmap(resizedImage);
+					
+					
+				}else{
+					//Toast.makeText(context, "No Image Found!! Usimng default", Toast.LENGTH_LONG).show();
+					displayImage.setBackgroundResource(R.drawable.logdive3);
+				}
+				*/
+			
+	       
+
+	        
+	        }//end newView
+	    
+	
+	    public Bitmap reSizeImage(Bitmap bitmapImage) {
+			// resize bitmap image passed and rerun new one
+			Bitmap resizedImage = null;
+			float factorH = h / (float) bitmapImage.getHeight();
+			float factorW = w / (float) bitmapImage.getWidth();
+			
+			Log.d(TAG, "Image size & width before resize: " + bitmapImage.getWidth() + " image heoght: "+ bitmapImage.getHeight());
+			
+			float factorToUse = (factorH > factorW) ? factorW : factorH;
+			try {
+				resizedImage = Bitmap.createScaledBitmap(bitmapImage,
+						(int) (bitmapImage.getWidth() * factorToUse),
+						(int) (bitmapImage.getHeight() * factorToUse), false);
+				
+				Log.d(TAG, "Image size & width AFTER resize: " + (bitmapImage.getWidth() * factorToUse) + " Height: "+ (bitmapImage.getHeight() * factorToUse));
+			} catch (IllegalArgumentException e) {
+				Log.d(TAG, "Problem resizing Image @Line 510+");
+				e.printStackTrace();
+			}
+			Log.d(TAG,
+					"in resixed, value of resized image: "
+							+ resizedImage.toString());
+			
+			//release resourcse
+			bitmapImage.recycle();
+			System.gc();
+			return resizedImage;
+		}// end reSize
+
+	    
+	    //asynch class to load nase 64 image and convert to bitmap and set imageview 
+	      
+	 		class getBitmapImage extends AsyncTask<String, Void, Bitmap>{
+
+	 			private View view;
+	 			private ViewHolder holderB;
+	 			public getBitmapImage(View v) {
+				// TODO Auto-generated constructor stub, takes ViewGroup as arg
+	 				//ViewGroup parent;
+	 				view=v;
+	 				holderB=new ViewHolder();
+	 				
+			}
+
+
+				
+
+
+				@Override
+	 			protected Bitmap doInBackground(String... imagePath) {
+	 				
+	 				/* get image path and decode to bitmap
+	 				*First must make sure image loaded from DB base 64 is not loaed into memory at full size ie 1028 * 800 pixels
+	 				*Instead we use BotMapOptions object methods inJustDecodeBounds to stop autoloading of image, 
+	 				*then we scale down the image for loading into memory using BitMapOPtiontions.inSampleSize method
+	 				*This will significantly reduce memory usage and time req to load images into list view
+	 				*/
+	 				
+					/*first check if user wants to preview images, if not return null, 
+					/*this value is passed from dialog propmt in ViewListOfDives
+					*and passed to ItemAdpter constructor
+					**/
+					
+					if(displayImagesUserChoice){
+	 				
+					if(!isCancelled()){
+	 				String diveImagePath = imagePath[0];
+	 				
+	 				 File imagePathFile = new File(diveImagePath); 
+	 				 try {
+	 					final int IMAGE_MAX_SIZE = 3000;
+	 						FileInputStream streamIn = new FileInputStream(imagePathFile);
+	 						
+	 					// Decode image size and setInJBounds = true to avoid auto memory allocation for large image
+	 					    BitmapFactory.Options o = new BitmapFactory.Options();
+	 					    o.inJustDecodeBounds = true;
+	 					   BitmapFactory.decodeStream(streamIn, null, o);
+	 						 streamIn.close();
+	 						 
+	 						int scale = 1;
+	 					    while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 3)) > 
+	 					   IMAGE_MAX_SIZE) {
+	 					       scale++;
+	 					    }
+	 					    
+	 					   //get orginal width of image before loaded into memory 
+	 					   Log.d(TAG, "scale = " + scale + ", orig-width: " + o.outWidth + "  orig-height: " + o.outHeight);
+	 					    
+	 					   
+	 					   Bitmap b = null;
+	 					   streamIn = new FileInputStream(imagePathFile);
+	 					    if (scale > 1) {
+	 					        scale--;
+	 					        // scale to max possible inSampleSize that still yields an image
+	 					        // larger than target, inSampleSize loads the image into memor by a factor of its integer value
+	 					        o = new BitmapFactory.Options();
+	 					        o.inSampleSize = scale;
+	 					    // Decode bitmap with inSampleSize set
+	 					       o.inJustDecodeBounds = false;
+	 					       
+	 					       b = BitmapFactory.decodeStream(streamIn, null, o);
+	 					      resizedImage = reSizeImage(b);
+	 					      
+	 					     noOfImagesloaded++;
+	 					     streamIn.close();
+	 					     b.recycle();
+	 					     System.gc();
+	 					    
+	 				} else {
+	 			        bitmap = BitmapFactory.decodeStream(streamIn);
+	 			       resizedImage = reSizeImage(bitmap);
+	 			      streamIn.close();
+	 			     noOfImagesloaded++;
+	 			       System.gc();
+	 			    }
+	 					   
+	 						//resizedImage = reSizeImage(bitmap);
+	 					   
+	 				
+	 				 }catch(IOException exe){
+	 					 exe.printStackTrace();
+	 				 
+	 				 
+	 				 
+	 			}catch(OutOfMemoryError exc){
+	 				exc.printStackTrace();
+	 				//Toast.makeText(this, "Something went wrong! Try again...", Toast.LENGTH_SHORT).show();
+	 			}catch(NullPointerException nullpoint){
+	 				nullpoint.printStackTrace();
+	 				//end try catch
+	 			}
+	 				
+	 				
+					}//end if anstch class notCancelled from the onCakPressed method of viewListOfDives
+					else if(isCancelled()){
+						Log.d("ItemAdpter Aycnh", "Do in background cancelled");
+					}
+					
+					Log.d("ItemApdter Aycnh", "No of Images loaded = "+  noOfImagesloaded);
+	 				//return bitmap;
+					
+					}//end if displayImagesUserChoice=true, if not true resizedIMage is returned as null to onPostExecute
+					
+	 				return resizedImage;
+	 			}//end do in background
+	 			
+	 			
+	 			@Override
+	 			protected void onPostExecute(Bitmap bitmap) {
+	 				
+	 				//intilse holder to listview.xml ImageView
+ 					holderB.displayImage = (ImageView) view.findViewById(R.id.iv_list_image); //image view
+	 				//ImageView displayImage = (ImageView) view.findViewById(R.id.iv_list_image);
+	 				if(bitmap!=null ){
+	 					
+	 					//set image ysing holder staic object
+	 					
+	 					holderB.displayImage.setBackground(null);
+	 					
+	 					holderB.displayImage.setImageBitmap(resizedImage);
+	 					//displayImage.setBackground(null);
+	 					//resizedImage = reSizeImage(bitmap);
+	 					
+	 					//displayImage.setImageBitmap(resizedImage);
+	 					
+	 					
+	 					
+	 					
+	 				}else{
+	 					
+	 					/*load defualt small image if user selects hey do not want 
+	 					*to view prview images in ViewListDives classs dialog
+	 					*according to value passed to this constructor 
+	 					*displayImagesUserChoice and then [assed to do in backgopund
+	 					*/
+	 					 
+	 					 
+	 					/*get a random drawable from resources but looks untidy to turn off for now
+	 					
+	 					int[] imageSelection= {R.drawable.buddycheck, R.drawable.logdive3, R.drawable.sea, R.drawable.weather, R.drawable.logo1};
+	 					Random whichImage = new Random();
+	 					//int theImage = whichImage.nextInt(imageSelection.length);
+	 					int theImage = imageSelection[whichImage.nextInt(imageSelection.length)];
+	 					
+	 					displayImage.setBackgroundResource(theImage);
+	 					
+	 					*/
+	 					
+	 					//displayImage.setBackgroundResource(R.drawable.camera4);
+	 					
+	 					//set image using static holder object
+	 					holderB.displayImage.setBackgroundResource(R.drawable.camera4);
+	 				}
+	 				
+	 			}//end onPOstExecute
+	 		}//end getBitmap asynch
+	    
+	 		
+	 		
+
+}//end ItemADtater class

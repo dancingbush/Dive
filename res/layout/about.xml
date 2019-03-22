@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/backgrounddive4"
+    android:layout_margin="20dp"
+    >
+    
+    <!-- Outer liner layout hat will hold plane image -->
+    <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+     android:layout_margin="4dp"
+    android:alpha="1"
+    >
+    
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/about"
+        android:layout_marginBottom="40dp"
+        android:alpha="0.8"
+         />
+
+    <EditText
+        android:id="@+id/tv_aboutMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dip"
+        android:text="Large Text"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:typeface="serif"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="12dp"
+        android:alpha="0.7"
+         />
+
+    <Button
+        android:id="@+id/ib_emailMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:background="@drawable/button_bg"
+         android:textColor="#000033"
+         android:text="Email"
+    android:typeface="serif" 
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/ib_sendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:background="@drawable/button_bg"
+        
+        android:text="Send"
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        />
+    
+    
+  
+</LinearLayout>
+
+    </LinearLayout>
+  </ScrollView>

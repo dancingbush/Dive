@@ -1,0 +1,603 @@
+package com.mooney.diveapp;
+
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
+
+
+
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.app.WallpaperManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+@SuppressWarnings("deprecation")
+public class GalleryOfImages extends Activity implements getArrayListFromAyschTask, OnClickListener{
+	
+	/*
+	 * Get cursor from database, iterate it and get the string path of every image stored
+	 * For every string path found, call a asynch clas to convert to a Bitmap and store in a ArrayList<Bitmap>
+	 * Use the ArrayList<bitmap>.get(position) to feed the bitmap into the image view of gallery in Baseadpter getView()
+	 * to retinr each imagepof the data base
+	 * Always only open a database instance and do not close, and remeber to always close Cursor obj to avoif memeor leaks
+	 * 
+	 * Populate the Bitmap ArrayList in teh onCreate via calling teh asynch class, if u put in getView it will be called everytime 
+	 * u move to a pictire not in voew on the device
+	 * 
+	 * 
+	 * Source guidelineto this exanple http://android-er.blogspot.ie/2012/07/implement-android-gallery-widget-with.html?m=1
+	 */
+	
+public getArrayListFromAyschTask bitmapArrays;//type interface
+	private ArrayList<Bitmap> bitmapArray;
+	private Bitmap bitmap=null;
+	private ImageView selectedImage;  
+	private static diveDataBase diveDB;
+	private static Cursor cursor;
+	private ProgressDialog pd;
+	private Bitmap resizedImage;
+	static int w = 50;
+	static int h = 50;
+	private Bitmap theBitmap, wallPaperBitmap;
+	private ArrayList <String> theBitMapList; 
+	private Cursor dataBaseCursor;
+	private ArrayList <String> diveLocations;
+	private ArrayList <String> diveDates;
+	private ArrayList<String> diveNumbers, diveRow;
+	private TextView loaction_date;
+	private String location,date;
+	private int n=0;
+	String diveNumber;
+	private Button setWallpaper;
+	
+	
+	
+    
+    
+
+   
+   
+    
+    
+   @Override
+   public void onCreate(Bundle savedInstanceState) 
+   {
+       super.onCreate(savedInstanceState);
+       setContentView(R.layout.gallery);
+    
+       
+       setWallpaper = (Button) this.findViewById(R.id.send);
+       setWallpaper.setOnClickListener(this);
+       this.diveLocations = new ArrayList<String>();
+		this.diveDates = new ArrayList<String>();
+		diveNumbers = new ArrayList<String>();
+		diveRow = new ArrayList<String>();
+       bitmapArray = new ArrayList<Bitmap>();
+       diveDB = new diveDataBase(this);
+       diveDB.open();
+       dataBaseCursor = GalleryOfImages.diveDB.getCursorData();
+       this.loaction_date = (TextView) this.findViewById(R.id.tv_Gallery_LocationandDate);
+       
+       
+       if(dataBaseCursor != null && dataBaseCursor.getCount()>0){
+       String diveImagePath ="";
+       
+		new getImageAsynch(dataBaseCursor).execute(diveImagePath);
+
+       }else if(this.dataBaseCursor==null || this.dataBaseCursor.getCount()==0){
+			//no entries so display dialog
+			displayDiaglog();
+			//end if
+		}
+       /*
+        * Open cursor, iterate, populate Arrlist Bitmap
+        * with bitmaps from database (repsrenting base64 strings in db)
+        */
+      
+    
+     		
+       
+       
+   }//oncreate
+
+   
+   
+   
+   private void displayDiaglog() {
+	// called if no entries in data base and cusro is empty, form onCreate
+	   AlertDialog.Builder build = null;
+		AlertDialog dialog = null;
+		build = new AlertDialog.Builder(this);
+		build.setCancelable(true);
+		build.setMessage("You have no dives saved in DB!!");
+		build.setPositiveButton("Log A Dive",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// go to log a dive
+						Intent i = new Intent(
+								"android.intent.action.LOGDIVE");
+						startActivity(i);
+						finish();
+
+					}// end on click
+				});// end pos button take photo
+
+		// get photo from SD card option
+		build.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+
+					}// end onclick
+				});// end pos button take photo
+		dialog = build.create();
+		dialog.setTitle("No Logged Dives");
+		dialog.show();
+	
+}
+
+
+
+
+//inner itemadapter class
+   public class GalleryImageAdapter extends BaseAdapter{
+
+	   
+		
+		
+	   
+	   private Context mContext;
+	   private int itemBackground;
+	  
+	   
+	   public GalleryImageAdapter(Context context){
+		   mContext = context;
+		   //--setting the style--
+		   TypedArray a = GalleryOfImages.this.obtainStyledAttributes(R.styleable.Gallery1);
+		   itemBackground =a.getResourceId(R.styleable.Gallery1_android_galleryItemBackground, 0);
+		   a.recycle();
+	   }
+	   
+	   
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		Log.d("GALLERY VIEW GETCOUNT() MEYHOD", "Bitmap size : " +bitmapArray.size() );
+		return bitmapArray.size();
+	}
+
+	
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		
+		ImageView i = new ImageView(mContext);
+		
+		//i.setImageResource(this.mimagelds[position]);
+		Bitmap bm = bitmapArray.get(position);
+		//wallPaperBitmap = bm;
+		
+		i.setImageBitmap(bm);
+		
+		//depening on screen size set gallery size
+		int screenSize = getScreenSize();
+		if(screenSize ==1 || screenSize==3){
+			//large
+			i.setLayoutParams(new Gallery.LayoutParams(250,220)); //ser the gallery latout programictaiclly
+			Log.d("GALLERY SCREENSZIE", "SCREEN SIZE IS X-LARGE(1)/LARGE(3)="+screenSize);
+		}else{
+			//not large
+			i.setLayoutParams(new Gallery.LayoutParams(150,120)); //ser the gallery latout programictaiclly
+			Log.d("GALLERY SCREENSZIE", "SCREEN SIZE IS NORMAL:"+screenSize);
+		}
+		
+		
+		
+		i.setScaleType(ImageView.ScaleType.FIT_XY);//fill the gallery container with image
+		i.setBackgroundResource(itemBackground);
+		Log.d("GALLERY: GET VIEW", "bitmap Array size: "+bitmapArray.size()+" No of Bitmaps added to view: " +n);
+		
+		n=n+1;
+		return i;
+	}//getview
+	   
+	   
+	   
+	
+	   
+   }//end gallery irem afd
+   
+   
+   
+   public int getScreenSize(){
+	   
+	   //get screen soe promatticaly so we can set the layout gallery view at runtome
+	   int screenSize = this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+	   
+	   switch(screenSize){
+	   
+	   case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+		   return 1;
+	case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+	   		return 2;
+	case Configuration.SCREENLAYOUT_SIZE_LARGE:
+		//at east 480dp
+   		return 3;
+		   
+	   
+	   
+	   }
+	   return 0;//if neither 1 or 2
+   }//gerseceensize
+   
+   
+   
+   //inner class to return bitmap image off teh main thread
+   public class getImageAsynch extends AsyncTask<String, Void, Bitmap>{
+
+	   private Cursor cursorDB;
+	   private ProgressDialog pd;
+	   public getArrayListFromAyschTask delgate=null;//use this to send arraylist back to getView for gallery
+	   
+	   public getImageAsynch(Cursor cursor){
+		  cursorDB= cursor; 
+	   }
+	   
+	   
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		pd = new ProgressDialog(GalleryOfImages.this);
+		pd.setTitle("Loading Dive Pics....");
+		pd.show();
+	}
+
+	@Override
+	protected Bitmap doInBackground(String... params) {
+		// TODO Auto-generated method stub
+		
+		//String diveImagePath = params[0];
+		//String diveImagePath = imagePath[0];
+		
+		
+		//iterate though the cursor and add each image path to Arryalist
+ 		if(dataBaseCursor != null && dataBaseCursor.getCount()>0){
+ 			
+ 			Log.d("GALLERY DB CHECK", "Curcor rows: "+ dataBaseCursor.getCount());
+ 			
+ 			//loop through cursor & get fiel path of image
+ 			while(dataBaseCursor.moveToNext()){
+ 				
+ 				String diveImagePath = dataBaseCursor.getString(dataBaseCursor.getColumnIndex(diveDB.KEY_DIVEPICTURE));
+ 				location = dataBaseCursor.getString(dataBaseCursor.getColumnIndex(diveDB.KEY_DIVESITE));
+ 				date = dataBaseCursor.getString(dataBaseCursor.getColumnIndex(diveDB.KEY__DIVEDATE));
+ 				diveNumber = dataBaseCursor.getString(dataBaseCursor.getColumnIndex(diveDB.KEY__DIVENUMBER));
+ 				String diveRowID = dataBaseCursor.getString(dataBaseCursor.getColumnIndex(diveDB.KEY_ROWID));
+ 				//get image bitmap aysnchronopusly then populate the Arraylist of botmaps
+ 				
+ 				//add loactions
+ 				
+ 				diveLocations.add(location);
+ 				diveDates.add(date);
+ 				diveNumbers.add(diveNumber);
+ 				diveRow.add(diveRowID);
+ 				
+ 				
+ 				if(diveImagePath.toLowerCase().contains("no")){
+ 					
+ 					Bitmap deafultImage = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.noimageselected);
+ 					
+ 					 bitmapArray.add(deafultImage);
+ 					 Log.d("GALLERY PRE EXCE", "BTMAP ARRAY SIZE"+bitmapArray.size());
+ 					//return deafultImage;
+ 				}else{
+ 					
+ 				 File imagePathFile = new File(diveImagePath); 
+ 				 try {
+ 					final int IMAGE_MAX_SIZE = 3000;
+ 						FileInputStream streamIn = new FileInputStream(imagePathFile);
+ 						
+ 					// Decode image size and setInJBounds = true to avoid auto memory allocation for large image
+ 					    BitmapFactory.Options o = new BitmapFactory.Options();
+ 					    o.inJustDecodeBounds = true;
+ 					   BitmapFactory.decodeStream(streamIn, null, o);
+ 						 streamIn.close();
+ 						 
+ 						 
+ 						 //chamnge power to alter size
+ 						int scale = 1;
+ 					    while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 5.3)) > 
+ 					   IMAGE_MAX_SIZE) {
+ 					       scale++;
+ 					    }//try
+ 					    
+ 					   //get orginal width of image before loaded into memory 
+ 					   Log.d("GALLERY: IMAFGE SIZE", "scale = " + scale + ", orig-width: " + o.outWidth + "  orig-height: " + o.outHeight);
+ 					    
+ 					   
+ 					   Bitmap b = null;
+ 					   streamIn = new FileInputStream(imagePathFile);
+ 					    if (scale > 1) {
+ 					        scale--;
+ 					        // scale to max possible inSampleSize that still yields an image
+ 					        // larger than target, inSampleSize loads the image into memor by a factor of its integer value
+ 					        o = new BitmapFactory.Options();
+ 					        o.inSampleSize = scale;
+ 					    // Decode bitmap with inSampleSize set
+ 					       o.inJustDecodeBounds = false;
+ 					       
+ 					       b = BitmapFactory.decodeStream(streamIn, null, o);
+ 					       
+ 					       //images too smal when we resize here, they are 160wX120h before we resize and afet 50wX37h
+ 					       //so dont call resize image method for now
+ 					       
+ 					     // resizedImage = reSizeImage(b);
+ 					       resizedImage =b;
+ 					      bitmapArray.add(resizedImage);
+ 					     //noOfImagesloaded++;
+ 					     streamIn.close();
+ 					    // b.recycle();
+ 					     System.gc();
+ 					    
+ 				} else {
+ 			        bitmap = BitmapFactory.decodeStream(streamIn);
+ 			       //resizedImage = reSizeImage(bitmap);
+ 			      streamIn.close();
+ 			     //noOfImagesloaded++;
+ 			       System.gc();
+ 			    }
+ 					   
+ 						//resizedImage = reSizeImage(bitmap);
+ 					   
+ 				
+ 				 }catch(IOException exe){
+ 					 exe.printStackTrace();
+ 				 
+ 				 
+ 				 
+ 			}catch(OutOfMemoryError exc){
+ 				exc.printStackTrace();
+ 				//Toast.makeText(this, "Something went wrong! Try again...", Toast.LENGTH_SHORT).show();
+ 			}catch(NullPointerException nullpoint){
+ 				nullpoint.printStackTrace();
+ 				//end try catch
+ 			}//end try catch
+ 				
+ 				// bitmapArray.add(resizedImage);
+ 				 //return resizedImage;
+ 				}
+ 				
+ 				}//edn else there is a image stored
+ 		
+ 		}
+ 				
+ 				
+ 				
+ 				//Arraylist is populate with all bitmaps from DB, call get so thread will sleep unitil we have
+ 				//fully populate arryList with bitmaps from Database, otherwise get nullpointer in Arraylist bitap
+ 				/*
+ 				try {
+ 					new getImageAsynch(dataBaseCursor).execute(diveImagePath).get();
+ 				} catch (InterruptedException e) {
+ 					// TODO Auto-generated catch block
+ 					e.printStackTrace();
+ 				} catch (ExecutionException e) {
+ 					// TODO Auto-generated catch block
+ 					e.printStackTrace();
+ 				}
+ 				//call get() method so this thread will wiat ontil
+ 				*/
+ 				Log.d("GALLERY getVIEW", "Bitmap returned FROM AYSN CLASS: "+bitmapArray.size());
+ 				//the bitmap is returned
+ 						//getImageAsynch = (getBitmapImage) new getBitmapImage(v).execute(diveImagePath);
+				return null;
+ 				
+ 				
+ 				
+ 			//}//end while
+		
+		
+		
+	}//doinbkgrd
+
+	@Override
+	protected void onPostExecute(Bitmap result) {
+		// store resziedImages in array
+		super.onPostExecute(result);
+		pd.dismiss();
+		
+		//bitmapArray.add(result);
+		Log.d("GALLERY IN ASYCH POST EXCEITE: ", "BITMAP ARRAY SIZE: "+ bitmapArray.size());
+		
+		
+		
+		Gallery gallery = (Gallery) findViewById(R.id.gallery1);
+        selectedImage=(ImageView)findViewById(R.id.imageView1);
+        gallery.setSpacing(6);
+        
+        gallery.setAdapter(new GalleryImageAdapter(GalleryOfImages.this));//teh adter provodes data to the Gallery
+       // gallery.setAdapter(new GalleryImageAdapter(this));
+
+        
+        
+         // clicklistener for Gallery image, when selscted sends to enarged image
+        gallery.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, final int position, long id) {
+               // Toast.makeText(GalleryOfImages.this, "Your selected position = " + position, Toast.LENGTH_SHORT).show();
+                // show the selected Image
+               // selectedImage.setImageResource(mImageIds[position]);
+            	
+            	/*
+        		 * fade image in and out animation code
+        		 */
+            	//int[] randomAnimation ={R.anim.clockwise360, R.anim.counterclockwise360, R.anim.slidedown};
+    			int[] randomAnimation ={R.anim.clockwise360, R.anim.counterclockwise360, R.anim.slidedown};
+    			Random whichAnimation = new Random();
+    			final int animationRandom = randomAnimation[whichAnimation.nextInt(randomAnimation.length)];
+    			Animation animateMenuItem = AnimationUtils.loadAnimation(getApplicationContext(), animationRandom);
+    			
+                selectedImage.setImageBitmap(bitmapArray.get(position));
+                selectedImage.setAnimation(animateMenuItem);
+                wallPaperBitmap = bitmapArray.get(position);
+                selectedImage.setOnClickListener(new OnClickListener(){
+                	
+                	
+
+					@Override
+					public void onClick(View v) {
+						//naviage to ViewSelectedDive class
+						//naviage to ViewSelectedDive class
+						//String row = cursor.getString(cursor.getColumnIndexOrThrow(diveDataBase.KEY_ROWID));
+						String row= diveRow.get(position);
+						Intent i = new Intent("android.intent.action.VIEWSELECTEDDIVE");
+						Bundle extras = new Bundle();
+						extras.putString("row", row);
+						i.putExtras(extras);
+						startActivityForResult(i, 0);
+						//Toast.makeText(getBaseContext(), "Row selected: "+ row, Toast.LENGTH_LONG).show();
+						//cursor.close();
+						//dataBaseCursor.close();
+						finish();//free resources
+						
+					}
+                	
+                });
+                
+                
+                //set the textview to loaction and date
+                Log.d("GALLERY GET VIEW", "Dive aray size: ");
+                String locationanddate = "Dive "+diveNumbers.get(position)+" at "+ diveLocations.get(position)+" : "+diveDates.get(position);
+                loaction_date.setText("\n\n"+locationanddate);
+                
+            }
+        });
+		//return the arraylist via the interface call back
+		//delgate.getArrayOfBitMaps(bitmapArray);
+		//see here http://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a
+        //cursor.close();
+        //dataBaseCursor.close();
+		//finish();//free resources
+	}//post exe
+	   
+	
+	   
+	   //= (getBitmapImage) new getBitmapImage(v).execute(diveImagePath); 
+   }//end aysnch task
+
+
+   
+   
+   
+
+
+
+
+
+
+
+
+@Override
+public void getArrayOfBitMaps(ArrayList<Bitmap> bitmaps) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+
+
+@Override
+public void onClick(View v) {
+	// setWallapaper is pressed, use displaymetrics to determine screen size
+	
+	Bitmap image = null;
+	if(wallPaperBitmap!=null){
+		image = wallPaperBitmap;
+	}else{
+		Toast.makeText(getApplicationContext(), "No IMage Selected!!", Toast.LENGTH_LONG).show();
+	}
+	
+	
+	DisplayMetrics metrics = new DisplayMetrics();
+	this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	
+	int secreenWidth = metrics.widthPixels;
+	int screenHeight = metrics.heightPixels;
+	
+	WallpaperManager wpm = WallpaperManager.getInstance(getApplicationContext());
+	
+	try{
+		wpm.setBitmap(image);
+		wpm.suggestDesiredDimensions(secreenWidth, screenHeight);
+		Toast.makeText(getApplicationContext(), "Wallpaper Set!", Toast.LENGTH_LONG).show();
+		
+	}catch(IOException e){
+		e.printStackTrace();
+		Toast.makeText(getApplicationContext(), "Somehing went Worg! Try later..", Toast.LENGTH_LONG).show();
+		
+	}catch(Exception ex){
+		ex.printStackTrace();
+		Toast.makeText(getApplicationContext(), "Somehing went Worg! Try later..", Toast.LENGTH_LONG).show();
+		
+	}
+	
+	
+}//onClick
+   
+   
+}//end calss
+
+

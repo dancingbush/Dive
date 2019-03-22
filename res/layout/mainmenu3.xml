@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:background="@color/black"
+    tools:context=".MainActivity" >
+
+    <ImageView
+        android:id="@+id/bg_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash2" 
+        android:alpha="0.85"
+        android:contentDescription="@string/app_name"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+        android:layout_marginBottom="8dip"
+        >
+
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+               
+                
+                 <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_marginTop="5dip"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:padding="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/logo2" />
+
+            </LinearLayout>
+
+            
+		    <LinearLayout
+		        android:id="@+id/bottom"
+		        android:layout_width="match_parent"
+		        android:layout_height="215dp"
+		        android:orientation="vertical" >
+
+		        
+		        
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:orientation="horizontal" 
+		            android:baselineAligned="false"
+		            android:gravity="center">
+
+					<LinearLayout
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:paddingLeft="3dp"
+					    android:paddingRight="3dp" 
+					    android:gravity="center"
+					    android:orientation="horizontal" >
+
+	   					 <TextView
+	   					     android:id="@+id/menu_about"
+	   					     android:layout_width="100dp"
+	   					     android:layout_height="100dp"
+	   					     android:layout_gravity="center"
+	   					     android:background="@drawable/button_back"
+	   					     android:drawableTop="@drawable/ic_about"
+	   					     android:gravity="top|center"
+	   					     android:padding="10dp"
+	   					     android:text="My Profile"
+	   					     android:textColor="#ffffff" />
+
+					</LinearLayout>
+		            <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:paddingLeft="3dp"
+					    android:paddingRight="3dp"  
+			            android:orientation="vertical"
+			            android:gravity="center" >
+
+	   					 <TextView
+	   					     android:id="@+id/menu_portfolio"
+	   					     android:layout_width="100dp"
+	   					     android:layout_height="100dp"
+	   					     android:background="@drawable/button_back"
+	   					     android:drawableTop="@drawable/ic_portfolio"
+	   					     android:gravity="top|center"
+	   					     android:padding="10dp"
+	   					     android:text="Log a Dive"
+	   					     android:textColor="#ffffff" />
+
+					</LinearLayout>
+					<LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:paddingLeft="3dp"
+					    android:paddingRight="3dp"  
+			            android:orientation="vertical"
+			            android:gravity="center" >
+
+	   					 <TextView
+	   					     android:id="@+id/menu_web"
+	   					     android:layout_width="100dp"
+	   					     android:layout_height="100dp"
+	   					     android:background="@drawable/button_back"
+	   					     android:drawableTop="@drawable/ic_web"
+	   					     android:gravity="top|center"
+	   					     android:padding="10dp"
+	   					     android:text="Dive sites"
+	   					     android:textColor="#ffffff" />
+
+					</LinearLayout>
+
+		        </LinearLayout>
+
+				<LinearLayout
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:baselineAligned="false"
+				    android:orientation="horizontal"
+				    android:gravity="center"
+				    android:paddingTop="8dp" >
+
+					<LinearLayout
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:gravity="center"
+					    android:orientation="vertical"
+					    android:paddingLeft="3dp"
+					    android:paddingRight="3dp"  >
+
+	   					 <TextView
+	   					     android:id="@+id/menu_media"
+	   					     android:layout_width="100dp"
+	   					     android:layout_height="100dp"
+	   					     android:layout_gravity="center"
+	   					     android:background="@drawable/button_back"
+	   					     android:drawableTop="@drawable/ic_media"
+	   					     android:gravity="top|center"
+	   					     android:padding="10dp"
+	   					     android:text="View Dives"
+	   					     android:textColor="#ffffff" />
+
+					</LinearLayout>
+		            <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:orientation="vertical"
+			            android:gravity="center" 
+			            android:paddingLeft="3dp"
+					    android:paddingRight="3dp"  >
+
+	   					 <TextView
+	   					     android:id="@+id/menu_gallery"
+	   					     android:layout_width="100dp"
+	   					     android:layout_height="100dp"
+	   					     android:background="@drawable/button_back"
+	   					     android:drawableTop="@drawable/ic_gallery"
+	   					     android:gravity="top|center"
+	   					     android:padding="10dp"
+	   					     android:text="Gallery"
+	   					     android:textColor="#ffffff" />
+
+					</LinearLayout>
+
+					<LinearLayout
+					    android:layout_width="wrap_content"
+					    android:layout_height="wrap_content"
+					    android:gravity="center"
+					    android:orientation="horizontal"
+					    android:paddingLeft="3dp"
+					    android:paddingRight="3dp"   >
+
+	   					 <TextView
+	   					     android:id="@+id/menu_contact"
+	   					     android:layout_width="100dp"
+	   					     android:layout_height="100dp"
+	   					     android:background="@drawable/button_back"
+	   					     android:drawableTop="@drawable/ic_contact"
+	   					     android:gravity="top|center"
+	   					     android:padding="10dp"
+	   					     android:text="More Options"
+	   					     android:textColor="#ffffff" />
+
+					</LinearLayout>
+
+		        </LinearLayout>
+
+		    </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

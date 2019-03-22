@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- name was DIve App -->
+    <string name="app_name">DIve App</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    
+    <!-- Spinner (Drop down menu) for the Poflie XML Divel level -->
+
+    
+ 
+    <string-array name="certifcation_arrays">
+        <item>Open Water</item>
+        <item>Adventure</item>
+        <item>Advanced Diver</item>
+        <item>Rescue Diver</item>
+        <item>MAster Scuba Diver</item>
+        <item>DiveMaster</item>
+        <item>Instructor OW/ Ass. Instructor</item>
+        <item>Instructor-Specilaity</item>
+        <item>Instructor-Master Sd Trainer</item>
+        <item>Instructor-IDC Staff Instructor</item>
+        <item>Master Instructor</item>
+        <item>Course Directo</item>
+        
+    </string-array>
+    
+    <string-array name="exp_arrays">
+        <item> 1 </item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10+</item>
+        
+    </string-array>
+ 
+    
+     <!-- Spinner (Drop down menu) for the condtions of dive in logDive XML level -->
+
+    
+ 
+    <string-array name="diveConditions_arrays">
+        <item>Waves/Surf/Surge</item>
+        <item>Current/Drift</item>
+        <item>Calm</item>
+        <item>Inwater Lake</item>
+        <item>Pool</item>
+        <item>Gales</item>
+        
+        
+    </string-array>
+    
+      <!--FB app ID-->
+      <!-- first fb dive app before delting ID was 209894479205372 -->
+      
+    <string name="app_id">252353458270434</string>
+   
+</resources>

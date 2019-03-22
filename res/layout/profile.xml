@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:layout_margin="5dp"
+    android:layout_marginTop="12dip"
+    
+    >
+
+    <RelativeLayout 
+       android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:layout_margin="10dp"
+    android:background="@drawable/backgrounddive4"
+    android:alpha="0.85"
+    
+        
+        
+        >
+        
+        
+        
+    
+    <ImageButton
+        android:id="@+id/ib_profileImage"
+        android:layout_width="185dp"
+        android:layout_height="145dp"
+        android:scaleType="fitXY"
+        android:alpha="1"
+        />
+
+    <EditText
+        android:id="@+id/et_firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/ib_profileImage"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:textColor="@color/white"
+        android:text="firstname" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/et_lastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:inputType="textPersonName"
+        android:layout_alignBottom="@+id/ib_profileImage"
+        android:layout_alignLeft="@+id/et_firstName"
+        android:ems="10"
+         android:textColor="@color/white"
+        android:text="Lastname" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/ib_profileImage"
+        
+        android:layout_below="@+id/seekBar1"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="5dp"
+        android:text="Certifcation"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignLeft="@+id/spinner_dive_exp"
+        android:text="Years Exp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/spinner_certifcation"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="20dp"
+        android:layout_margin="5dp"
+        android:textColor="@color/black"
+       
+        android:entries="@array/certifcation_arrays" />
+
+    <Spinner
+        android:id="@+id/spinner_dive_exp"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/spinner_certifcation"
+        android:layout_margin="5dp"
+        android:textColor="@color/black"
+        android:entries="@array/exp_arrays" />
+
+    <ImageView
+	        android:id="@+id/seekBar1"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ib_profileImage"
+        android:layout_marginTop="15dp"
+	       
+	        android:src="@drawable/separator" />
+   
+
+    <CheckBox
+        android:id="@+id/cb_FemalePrfofile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/spinner_dive_exp"
+        android:layout_below="@+id/spinner_dive_exp"
+        android:text="Female" />
+
+    <CheckBox
+         android:id="@+id/cb_MalePrfofile"
+                android:text="Male"
+                android:typeface="serif"
+                android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/spinner_certifcation"
+        android:layout_below="@+id/spinner_certifcation"
+        />
+
+    <TextView 
+         android:id="@+id/About_MeText"
+       
+       
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+        
+        android:layout_below="@+id/table_specilalties"
+        android:layout_marginTop="35dp"
+         android:layout_marginLeft="5dp"
+        android:text="Medical History-Allergies"
+        
+    android:typeface="serif"
+    
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:ems="10"
+        
+        />
+    
+     <ImageView
+	        android:id="@+id/seekBar2"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	          android:layout_alignParentLeft="true"
+        android:layout_below="@+id/About_MeText"
+        android:layout_marginTop="15dp"
+	       
+	        android:src="@drawable/separator" />
+    
+    
+    <EditText
+         android:id="@+id/About_Me"
+        android:hint="Med History and Dive Experence"
+       
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        
+        android:layout_below="@+id/seekBar2"
+        android:layout_marginTop="35dp"
+        android:inputType="textMultiLine"
+        android:lines="3"
+       android:background="@color/black"
+        android:padding="10dip"
+        android:layout_margin="5dip"
+        android:alpha=".5"
+        android:textColor="@color/white"
+        
+        android:ems="10" />
+    
+    
+    <TextView 
+         android:id="@+id/About_MeText2"
+       
+       
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+        
+        android:layout_below="@+id/About_Me"
+        android:layout_marginTop="35dp"
+         android:layout_marginLeft="5dp"
+         android:layout_marginBottom="5dp"
+         
+        android:text="Emergency Contact Details"
+    android:typeface="serif"
+    
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:ems="10"
+        
+        
+        
+        
+        />
+
+    <EditText
+         android:id="@+id/About_Me2"
+        android:hint="Conrtact Name and Phone Number"
+       
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        
+        android:layout_below="@+id/About_MeText2"
+        android:layout_marginTop="35dp"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        
+         android:background="@color/black"
+        android:padding="10dip"
+        android:layout_margin="5dip"
+        android:textColor="@color/white"
+        android:alpha=".6"
+        android:ems="10" />
+    
+    <Button
+    
+    android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:background="@drawable/button_bg"
+        android:textColor="#fff"
+        
+        
+       
+        android:layout_margin="30dp"
+        
+       android:layout_centerInParent="true"
+        
+        android:id="@+id/button_SaveProfile"
+        
+       
+        android:layout_below="@+id/About_Me2"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/ib_profileImage"
+        android:layout_below="@+id/cb_MalePrfofile"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="15dp"
+        android:text="Insurance No"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/et_insuranceNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Number"
+        android:inputType="number"
+        android:layout_alignLeft="@+id/cb_FemalePrfofile"
+        android:layout_alignTop="@+id/textView3"
+        android:ems="10" />
+
+    
+    
+    
+    
+ <TableLayout
+        android:id="@+id/table_specilalties"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" 
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/et_insuranceNumber"
+        android:alpha="0.7"
+        >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+             <CheckBox
+        android:id="@+id/cb_specilalityCB_DeepDive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Deep Diver" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Drift"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Drift Diver " />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+          <CheckBox
+        android:id="@+id/cb_specilalityCB_WreckDive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Wreck Diver" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Night_Diver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Night Diver " />
+        </TableRow>
+        
+        
+         <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_PeakBouyancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Peak Buoyancy" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Photograpgy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="UW Photography " />
+        </TableRow>
+        
+          <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Dry_Suit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Dry Suit Diver" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Rebreather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Rebreather " />
+            
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+           <CheckBox
+        android:id="@+id/cb_specilalityCB_SideMount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="SideMount " />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Enriched_Air"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Enriched Air " />
+            
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_UnderWater_Navigator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="UW Navigator" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Equitment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Equit Speciality" />
+            
+        </TableRow>
+        
+        
+         <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Discover_Tech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Discover Tech" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Tec40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Tec 40" />
+            
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow8"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100" >
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_Tec45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Tec45" />
+
+            <CheckBox
+        android:id="@+id/cb_specilalityCB_tec50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+          android:layout_weight="50"
+                android:background="@drawable/cell_shape"
+                android:typeface="sans"
+                android:ems="10"
+                android:padding="5dp"
+        
+        android:text="Tec 50" />
+            
+        </TableRow>
+        
+       
+        </TableLayout>    
+    
+    <!-- table holding sepcilaity checkboxes below insurnace num -->
+    </RelativeLayout>
+</RelativeLayout>
+</ScrollView>

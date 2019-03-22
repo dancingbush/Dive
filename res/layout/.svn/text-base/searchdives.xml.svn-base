@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button_GetAllDives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View All Dives" />
+
+    <AutoCompleteTextView
+        android:id="@+id/tv_enterRowID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Enter Row ID" >
+
+        <requestFocus />
+    </AutoCompleteTextView>
+    
+    <EditText
+        android:id="@+id/et_enterRowNumber"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/button_getRowNUmber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Information" />
+
+    <Button
+        android:id="@+id/button_editEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/button_deleteEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/tv_searchresults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Query Results"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+
+    
+        
+        <TextView
+            android:id="@+id/et_displayDBQueryResults"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Results..."
+            android:scrollbars="vertical"    />        
+           
+   
+
+</LinearLayout>

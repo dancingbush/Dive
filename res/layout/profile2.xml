@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+
+    <ImageButton
+        android:id="@+id/ib_profileImage"
+        
+        android:layout_width="135dp"
+        android:layout_height="100dp"
+         />
+
+    <EditText
+        android:id="@+id/et_firstName"
+        android:layout_toRightOf="@+id/ib_profileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="FistName"
+        android:ems="10" >
+
+        <requestFocus android:layout_width="wrap_content" />
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/et_lastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_below="@+id/et_firstName"
+        android:layout_toRightOf="@+id/ib_profileImage"
+        android:ems="10"
+        android:hint="Lastname" />
+
+    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp" />
+
+    
+
+  
+        
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+    
+        
+    
+     <Spinner
+        android:id="@+id/spinner_certifcation"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        
+        android:entries="@array/certifcation_arrays"
+        />
+
+
+     <EditText 
+         android:layout_toRightOf="@+id/spinner_certifcation"
+         android:hint="Insurance Number"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_insuranceNumber"
+         />
+
+     
+
+     </RelativeLayout>
+     
+    <TableLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_margin="10dp" 
+        >
+        <TableRow >
+<TextView android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Dive Exp"
+
+
+/>            
+
+
+<Spinner
+        android:id="@+id/spinner_dive_exp"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        
+        android:entries="@array/exp_arrays"
+        />
+
+<TextView android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Dive Exp"
+
+
+/>  
+             <EditText 
+         android:id="@+id/et_padiNumber"
+         android:hint="PADI Diver No."
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
+            
+        </TableRow>
+        <TableRow android:layout_marginTop="5dp">
+            <CheckBox
+                android:id="@+id/cb_MalePrfofile"
+                android:text="Male"
+                android:typeface="serif"
+                android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ></CheckBox>
+               <CheckBox
+                android:id="@+id/cb_FemalePrfofile"
+                android:layout_width="wrap_content"
+                android:text="Female"
+                android:typeface="serif"
+                
+        android:layout_height="wrap_content"></CheckBox> 
+            </TableRow>
+            <TableRow android:layout_marginTop="5dp">
+            <RadioGroup
+                android:id="@+id/radioGroup_sex"
+                
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/rb_Male"
+                    android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Male"/>
+                <RadioButton 
+                    android:layout_marginLeft="6dp"
+                    android:id="@+id/rb_Female"
+                    android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Female" 
+                    />
+                  </RadioGroup>
+        
+        
+            </TableRow>
+        
+        
+    </TableLayout>
+    <EditText 
+        android:id="@+id/About_Me"
+        android:hint="My Dive Experence"
+       
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        />
+    
+      
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:id="@+id/button_SaveProfile"
+        android:text="Save"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:background="@drawable/list_selectors"
+        />
+        </LinearLayout>
+</ScrollView>

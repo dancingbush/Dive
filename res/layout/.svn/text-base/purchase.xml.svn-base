@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/jellyfish">
+    
+    
+    <Button 
+    
+   android:layout_height="wrap_content"
+android:layout_width="180dip"
+android:layout_marginTop="45dip"     
+android:layout_centerHorizontal="true"
+android:layout_centerVertical="true"
+        android:text="Purchase Ad free Ver. €4.50"
+        android:background="@drawable/button_bg"
+        android:textColor="#fff"
+       
+        
+        
+        android:id="@+id/button_purchase"
+        ></Button>
+    
+
+</RelativeLayout>

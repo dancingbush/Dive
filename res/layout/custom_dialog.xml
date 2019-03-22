@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!-- Cutom dialog fro alert dialog bixes, holds an image, load tp dialog
+  by dialog.setCotenView(R.ayout.this) -->
+  
+  
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:layout_margin="30dip"   >
+    
+
+  
+    
+    <ImageView
+        android:id="@+id/imageForCustomDialogAlert"
+        android:layout_width="90dip"
+        android:layout_height="100dip"
+        android:layout_marginRight="5dp"
+        android:layout_gravity="center"
+       
+        android:background="@drawable/swipe3" />
+
+    
+
+   <Button
+        android:id="@+id/customDialogButtonOK"
+        android:layout_width="100px"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dip"
+        android:text=" Ok "
+        android:layout_marginRight="5dp"
+        android:background="@drawable/button_bg"
+        />
+
+</LinearLayout>

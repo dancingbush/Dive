@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout  android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100"
+    android:layout_margin="6dp" >
+    <EditText
+        android:id="@+id/et_URL2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:ems="10"
+        android:hint="www." >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button_Go2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="75"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="7dp"
+        android:textSize="12dp"
+        android:background="@drawable/list_selectors"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:text="Go" />
+
+    </LinearLayout>
+    
+     <LinearLayout  android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:weightSum="100" >
+    <EditText
+        android:id="@+id/et_SearchTownName2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:ems="10"
+        android:hint="Enter your town/city" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button_SearchGoogle2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="75"
+         android:layout_marginTop="5dp"
+        android:layout_marginLeft="7dp"
+        android:background="@drawable/list_selectors"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="12dp"
+        android:text="Search" />
+
+    </LinearLayout>
+    
+     <LinearLayout  android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100"
+    android:layout_margin="6dp" >
+     
+    <Button
+        android:id="@+id/button_Back2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/list_selectors"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="12dp"
+        android:text="Back" />
+
+    <Button
+        android:id="@+id/button_Forward2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/list_selectors"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="12dp"
+        android:text="Forward" />
+
+    <Button
+        android:id="@+id/button_RefreshPage2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/list_selectors"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="12dp"
+        android:text="Refresh" />
+
+    <Button
+        android:id="@+id/button_SaveURL2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+         android:layout_weight="30"
+        android:background="@drawable/list_selectors"
+        android:textColor="#000033"
+        android:typeface="serif"
+        android:textSize="12dp"
+        android:text="Save Site" />
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/webView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:layout_margin="10dp"/>
+    
+    
+
+</LinearLayout>
+

@@ -1,0 +1,282 @@
+package com.mooney.diveapp;
+
+
+import java.util.Random;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+public class DiveHistory extends Activity {
+
+	private TextView deepestDiveTV, warmistDiveTV, totalDivesTV, coledestDiveTV, totalBT_TV,longestDiveTV, shallowestDiveTV;
+	private int deppestDive=0, shallowestDive=1000, warmistDive=0, coldestDive=10000, totalBottomTime=0, longestDive=0, totalDives=0;
+	private ProgressDialog pd;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dive_history);
+		intilizeWidgets();
+		
+		//get the background for this activity form random choice of two drawables
+		int[] imageSelection= {R.drawable.divehistory1, R.drawable.divehistory2, R.drawable.splash2};
+		Random whichImage = new Random();
+		int theImage = whichImage.nextInt(imageSelection.length);
+		//this.getWindow().setBackgroundDrawableResource(imageSelection[theImage]);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.plane);
+		
+		pd = new ProgressDialog( this, ProgressDialog.STYLE_HORIZONTAL);
+		pd.setMessage("Loading your dives....");
+		//get cursor and iterate result set in a asynch inner class
+		new processHistory().execute();
+		
+		
+		
+	}//end on create
+
+	private void intilizeWidgets() {
+		// TODO Auto-generated method stub
+		deepestDiveTV = (TextView) this.findViewById(R.id.tv_deepestDive);
+		warmistDiveTV = (TextView)this.findViewById(R.id.tv_warmistDive);
+		totalDivesTV = (TextView)this.findViewById(R.id.tv_totalDives);
+		coledestDiveTV = (TextView)this.findViewById(R.id.tv_coledestDive);
+		totalBT_TV = (TextView)this.findViewById(R.id.tv_totalDiveTime);
+		longestDiveTV = (TextView)this.findViewById(R.id.tv_longestDive);
+		shallowestDiveTV = (TextView) this.findViewById(R.id.tv_shallowestDive);
+		
+		
+		
+	}//end intilize widgets
+
+	private class processHistory extends AsyncTask<Void, Void, String>{
+
+		private diveDataBase db;
+		private Cursor cursor;
+		private int theDepth, theBottomTime, theTemp;//assign daat from each row
+		
+		
+		protected void onPreExecute(){
+			//show dialog while loading data
+			//display dialog while page loading and close when finihsed(override onStart())
+			
+			pd.show();
+			
+		}
+		
+		@Override
+		protected String doInBackground(Void... params) {
+			// get cursor object and assign values for all history int varibles
+			db = new diveDataBase(DiveHistory.this);
+			db.open();
+			cursor = db.getCursorData();
+			int iBottomTime = cursor.getColumnIndex(db.KEY_BOTTOMTIME);
+			int iWaterTemp = cursor.getColumnIndex(db.KEY_WATERTEMP);
+			int iDepth = cursor.getColumnIndex(db.KEY_DEPTH);
+			int diveNum1=0;
+			int firstBottomTimeEntry=0;
+			//must account for user entering their current cummulative bottom time if >o on first dive
+			
+			//always chack the cursor has data before trying to retrive data from DB, otherwise exception thrown
+			if( cursor != null && cursor.getCount()>0 ){
+				
+				try{
+				int rowNumber = db.getNumberOfRows();
+			diveNum1= Integer.parseInt(db.getDiveNumber(1));//get first dive entry 
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			//if(diveNum1==1){
+				try{
+			firstBottomTimeEntry = Integer.parseInt(db.getDiveBottomTime(1));
+				}catch(Exception exc){
+					exc.printStackTrace();
+				}
+			//}
+			Log.d("DIVE HISTORY", "For Dive Number : " + diveNum1 + " the bttom time is : " + firstBottomTimeEntry);
+			}
+			int rows=0;
+			
+			
+			
+			if(cursor!=null && cursor.getCount()>0){
+			//iterate though the cursor
+			for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+				
+				
+				
+				//for every row get string data from the respective column index column
+				if(cursor.getString(iDepth)!=null || cursor.getString(iWaterTemp)!=null || cursor.getString(iBottomTime)!=null){
+					
+					theBottomTime = Integer.parseInt(cursor.getString(iBottomTime));
+				theDepth = Integer.parseInt(cursor.getString(iDepth));
+				theTemp = Integer.parseInt(cursor.getString(iWaterTemp));
+				
+				//comapre to get maximumu value
+				if (deppestDive<=theDepth){
+					deppestDive = theDepth;
+				
+				}
+				if(shallowestDive>=theDepth){
+					shallowestDive=theDepth;
+				}
+				if(warmistDive<=theTemp){
+					warmistDive=theTemp;
+				}
+				if(coldestDive>=theTemp){
+					coldestDive=theTemp;
+				}
+				
+				//if user enters first dove as not their first ie 235, with bottom time 2000 minutes
+				//we must check this and make sure this first bottom time is not given to longestDive
+				//int diveno = db.getLastDiveNumber();
+				if(rows == 0){
+				if(firstBottomTimeEntry>200){
+					theBottomTime = theBottomTime - firstBottomTimeEntry;
+				}
+				}
+				
+				if(longestDive<=theBottomTime){
+					longestDive=theBottomTime;
+				}
+				
+				if(rows==0){
+					theBottomTime = Integer.parseInt(cursor.getString(iBottomTime));
+				}
+				
+				
+				
+				
+				
+				}//end 2nd if
+				else{
+					//log 
+					Log.d("Dive Hstory", "One of the values is null!");
+				}
+			
+				totalBottomTime += theBottomTime;
+				totalDives = db.getLastDiveNumber();
+				
+				
+				rows++;
+			}//end for loop thopugh cursor object
+			}
+			else{
+				//first if stament,cursor is null or DB is empty
+				return "error";
+				//displayDialog();
+			}
+			//get total dives
+			
+			
+			return "";
+		}//end do in background
+		
+		
+		@Override
+		protected void onPostExecute(String result) {
+			// updtae the textviews with varibles assigned in do in background
+			if(pd.isShowing()){
+				pd.dismiss();
+			}
+			
+			//check if cursor was null and display error dialog if is
+			if(result.contains("error")){
+				displayDialog();
+			}else{
+			//assign varibles to fields
+			deepestDiveTV.setText(String.valueOf(deppestDive)+" meters");
+			warmistDiveTV.setText(String.valueOf(warmistDive)+" Celsius");
+			totalDivesTV.setText(String.valueOf(totalDives));
+			coledestDiveTV.setText(String.valueOf(coldestDive)+" Celsius");
+			//totalBT_TV.setText(String.valueOf(totalBottomTime)+" mins");
+			//longestDiveTV.setText(String.valueOf(longestDive)+ "mins");
+			shallowestDiveTV.setText(String.valueOf(shallowestDive)+" meters");
+			
+			if(totalBottomTime<60){
+				//display in mins
+				totalBT_TV.setText(String.valueOf(totalBottomTime)+" mins");
+				}else if(totalBottomTime>=60){
+					//report  in hours and mins
+					int hours = Math.round(totalBottomTime/60);
+					int minutes = Math.round( totalBottomTime%60);
+					//String bottomTimeHours = String.valueOf(totalBottomTime/60)+"hours " + totalBottomTime 
+					totalBT_TV.setText(hours + " hours "+ minutes+ " mins");
+					
+				}//end else
+			
+			if(longestDive<60){
+				//display in mins
+				longestDiveTV.setText(String.valueOf(longestDive)+" mins");
+				}else if(longestDive>=60){
+					//report  in hours and mins
+					int hours = Math.round(longestDive/60);
+					int minutes = Math.round( longestDive%60);
+					//String bottomTimeHours = String.valueOf(totalBottomTime/60)+"hours " + totalBottomTime 
+					longestDiveTV.setText(hours + " hours "+ minutes+ " mins");
+					
+				}//end else
+			
+			
+			}//end if error
+			
+			//close db here or gte errors
+			cursor.close();
+			db.close();
+			super.onPostExecute(result);
+		}//end onPostExecute
+		
+		
+		
+		
+	}//end inner asynch class
+	
+	
+	private void displayDialog() {
+		//display dialog of there are no entries in the database and finish the activity
+		
+		AlertDialog.Builder build = null;
+		AlertDialog dialog = null;
+		build = new AlertDialog.Builder(this);
+		build.setCancelable(true);
+		build.setMessage("You have no dives saved in DB!!");
+		build.setPositiveButton("Log A Dive",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// go to log a dive
+						Intent i = new Intent(
+								"android.intent.action.LOGDIVE");
+						startActivity(i);
+						finish();
+
+					}// end on click
+				});// end pos button take photo
+
+		// get photo from SD card option
+		build.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+
+					}// end onclick
+				});// end pos button take photo
+		dialog = build.create();
+		dialog.setTitle("No Logged Dives");
+		dialog.show();
+		
+		
+	}//end display dalog
+
+	
+}//end class Dive History

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:layout_margin="20dp"
+    android:background="@drawable/roundedcorners2"
+    >
+    
+    <!-- Outer liner layout hat will hold plane image -->
+    <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+     android:layout_margin="8dp"
+    android:background="@drawable/plane2"
+    >
+    
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/about"
+        android:layout_marginBottom="40dp" />
+
+    <EditText
+        android:id="@+id/tv_aboutMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Large Text"
+        android:textSize="18dp"
+        android:textColor="#55bbfa"
+        android:typeface="serif"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="12dp" />
+
+    <ImageButton
+        android:id="@+id/ib_emailMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:background="@drawable/button_bg"
+        
+        android:text="Email"
+        android:textColor="#fff"
+        android:layout_gravity="center" />
+
+    <ImageButton
+        android:id="@+id/ib_sendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:background="@drawable/button_bg"
+        
+        android:text="Send"
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        />
+    
+    
+  
+</LinearLayout>
+
+    </LinearLayout>
+  </ScrollView>

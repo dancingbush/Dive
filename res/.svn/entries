@@ -1,0 +1,117 @@
+10
+
+dir
+7
+https://riouxsvn.com/svn/diveapp/DiveApp2/res
+https://riouxsvn.com/svn/diveapp
+
+
+
+2014-02-20T15:26:40.789213Z
+7
+dancingbush
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+a5797657-fc77-47f2-bc99-0cb94c4e6946
+
+
+
+
+
+
+0
+
+.DS_Store
+file
+
+
+
+
+2014-02-14T19:46:25.000000Z
+1bac42fdf5a83400a18f23503dce3234
+2014-02-20T15:26:40.789213Z
+7
+dancingbush
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6148
+
+RAW
+dir
+
+anim
+dir
+
+drawable-hdpi
+dir
+
+drawable-ldpi
+dir
+
+drawable-mdpi
+dir
+
+drawable-xhdpi
+dir
+
+drawable-xlarge
+dir
+
+drawable-xxhdpi
+dir
+
+layout
+dir
+
+layout-xlarge
+dir
+
+menu
+dir
+
+values
+dir
+
+values-sw600dp
+dir
+
+values-sw720dp-land
+dir
+
+values-v11
+dir
+
+values-v14
+dir
+
